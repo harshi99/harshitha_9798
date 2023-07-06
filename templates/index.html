@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>History Bee Game</title>
+</head>
+<body>
+    {% if not game %}
+    <h2>Start a New Game</h2>
+    <form method="POST">
+        <label>Player 1:</label>
+        <input type="text" name="p1" required><br><br>
+        <label>Player 2:</label>
+        <input type="text" name="p2" required><br><br>
+        <label>Judge:</label>
+        <input type="text" name="judge" required><br><br>
+        <label>Max Points:</label>
+        <input type="number" name="max_points" min="1" required><br><br>
+        <label>Max Attempts:</label>
+        <input type="number" name="max_attempts" min="1" required><br><br>
+        <input type="submit" name="start_game" value="Start Game">
+    </form>
+    {% else %}
+    <h2>Game in Progress</h2>
+    <h3>Players:</h3>
+    <p>Player 1: {{ game.player1 }}</p>
+    <p>Player 2: {{ game.player2 }}</p>
+    {% if game.current_question %}
+    <h3>Scores:</h3>
+    <p>Player 1 Score: {{ game.player1_score }}</p>
+    <p>Player 2 Score: {{ game.player2_score }}</p>
+    {% endif %}
+    {% if result %}
+    <p>{{ result }}</p>
+    {% endif %}
+    <h3>Question:</h3>
+    {% if game.current_question %}
+    <p>{{ game.current_question }}</p>
+    <form method="POST">
+        <input type="hidden" name="player" value="{{ game.player1 }}">
+        <input type="text" name="answer" required>
+        <input type="submit" name="submit_answer" value="Submit Answer">
+    </form>
+    <form method="POST">
+        <input type="hidden" name="player" value="{{ game.player2 }}">
+        <input type="text" name="answer" required>
+        <input type="submit" name="submit_answer" value="Submit Answer">
+    </form>
+    {% endif %}
+    <form method="POST">
+        <input type="submit" name="restart_game" value="Restart Game">
+    </form>
+    {% endif %}
+</body>
+</html>
